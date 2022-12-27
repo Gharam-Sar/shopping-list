@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 import trash from "./imgs/trash.png";
+import cart from "./imgs/cart.png";
 import pen from "./imgs/pen.png";
 import notebook from "./imgs/notebook.png";
 import eraser from "./imgs/eraser.png";
@@ -21,7 +22,8 @@ let itemsOnDisplay =[{ id: 0, name: "Pen", img: pen,price :5 },{ id: 1, name: "N
 { id: 8, name: "Pens Bag", img: bag,price :15 },{ id: 9, name: "Backpack", img: backpack,price :20 },
 { id: 10, name: "Eraser", img: eraser,price :5 },{ id: 11, name: "Coloring Pens", img: colors,price :15 }];
 
-let itemColor=['#a0bcc2','#ddbcce','#c4dfaa','#d7c0ae','#e3bec6','#d0fca5','#dcb89c','#F7D59C','#fffab8','#F6AE99','#C9E4C5','#c8bde1'];
+let cartItems=[];
+let itemColor=['#a0bcc2','#ddbcce','#c4dfaa','#d7c0ae','#e3bec6','#d0fca5','#dcb89c','#ffeccb','#fffab8','#F6AE99','#C9E4C5','#c8bde1'];
 function Item({ item }) {
 
   return (
@@ -32,7 +34,30 @@ function Item({ item }) {
           src={item.img}
         ></img>
 <p>Price: {item.price}</p>
-<button className="addButton" >
+<button className="addButton" 
+ onClick={() => {
+  let found=false;
+  if(cartItems.length==0) {cartItems.push({id: item.id, amount: 1}); found=true;}
+  else{
+   for (let i = 0; i < cartItems.length; i++)
+  {
+    console.log("lllll");
+ 
+if(item.id==cartItems[i].id){
+  let amount=cartItems[i].amount;
+  cartItems[i].amount=amount+1;
+  found=true;
+  break;
+}
+
+  }
+  if(!found) cartItems.push({id: item.id, amount: 1});
+
+  }
+  
+console.log(cartItems);
+
+}}>
                 Add to Cart
               </button>
         </div>
@@ -40,7 +65,7 @@ function Item({ item }) {
   );
 }
 
-function Items({ displaytodo, filterText, toggle }) {
+function Items({  filterText, toggle }) {
 
   return (
     <div>
@@ -56,8 +81,11 @@ export default function MyApp() {
   return (
     <div>
       <div className="title">
-        <h1>Happy Shopping</h1>
+        <h1>Happy Shopping </h1><img className="cartImg"
+          src={cart}
+        ></img>
       </div>
+      <hr></hr>
       <div className="componant">
       <Items
        

@@ -3,9 +3,18 @@ body{
 flex-direction: column; 
 justify-content: center;
 align-items: center;
- background-color: rgb(88, 88, 88);
+ background-color: rgb(59, 59, 59);
 
 }
+.cartImg{
+position: absolute;
+left: 86%;
+top:3%;
+width:5%;
+
+}
+
+
 .App {
   text-align: center;
 }
