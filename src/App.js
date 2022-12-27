@@ -137,45 +137,93 @@ function EmptyCart() {
     </div>
   );
 }
-function CheckoutForm({ checkoutToggle, setcheckoutToggle }) {
+function CheckoutForm({
+  emailText,
+  setemailText,
+  nameText,
+  setnameText,
+  totalAmount,
+}) {
   return (
-    <div>
-      <div>
-      <abbr title="Checkout">
-      <img
-       onClick={() => {
-        setcheckoutToggle(!checkoutToggle);
-      }}
-          style={{ height: "70px" }}
-          src={checkout}
-        ></img>
-        </abbr>
-        
-      </div>
-      {
-
-      }
+    <div style={{ color: "white" }}>
+      <form>
+        <label>
+          Name: &nbsp;
+          <input
+            onChange={(e) => {
+              setnameText(e.target.value);
+            }}
+            type="text"
+            className="formBar"
+            placeholder="enter your name"
+          />
+        </label>
+        <br></br>
+        <label>
+          Email:&nbsp;
+          <input
+            onChange={(e) => {
+              setemailText(e.target.value);
+            }}
+            type="email"
+            className="formBar"
+            placeholder="enter your email"
+          />
+        </label>
+        <br></br>
+        <input
+          className="submit"
+          type="submit"
+          value="Submit"
+          onClick={() => {
+            console.log(
+              "User with name: " +
+                nameText +
+                " and Email: " +
+                emailText +
+                " has a total of: " +
+                totalAmount
+            );
+          }}
+        />
+      </form>
     </div>
   );
 }
-function Checkout({ checkoutToggle, setcheckoutToggle }) {
+function Checkout({
+  checkoutToggle,
+  setcheckoutToggle,
+  emailText,
+  setemailText,
+  nameText,
+  setnameText,
+  totalAmount,
+}) {
   return (
     <div>
       <div>
-      <abbr title="Checkout">
-      <img
-       onClick={() => {
-        setcheckoutToggle(!checkoutToggle);
-      }}
-          style={{ height: "70px" }}
-          src={checkout}
-        ></img>
+        <abbr title="Checkout">
+          <img
+            onClick={() => {
+              setcheckoutToggle(!checkoutToggle);
+            }}
+            style={{ height: "70px" }}
+            src={checkout}
+          ></img>
         </abbr>
-        
+        {checkoutToggle ? (
+          <CheckoutForm
+            totalAmount={totalAmount}
+            emailText={emailText}
+            setnemeText={setnameText}
+            setemailText={setemailText}
+            nameText={nameText}
+          />
+        ) : (
+          ""
+        )}
       </div>
-      {
-
-      }
+      {}
     </div>
   );
 }
@@ -185,14 +233,17 @@ function CartDisplay({
   setdelete,
   setcheckoutToggle,
   checkoutToggle,
-}) 
-{
+  emailText,
+  setemailText,
+  nameText,
+  setnameText,
+}) {
   let empty = false;
- let totalAmount=0;
+  let totalAmount = 0;
   if (cartItems.length == 0) empty = true;
-  for(let i=0;i<cartItems.length;i++){
-let temp=cartItems[i].amount*cartItems[i].price;
-totalAmount+=temp;
+  for (let i = 0; i < cartItems.length; i++) {
+    let temp = cartItems[i].amount * cartItems[i].price;
+    totalAmount += temp;
   }
   return (
     <div>
@@ -201,15 +252,20 @@ totalAmount+=temp;
         <CartItems deleteItem={deleteItem} setdelete={setdelete} />
       </div>
 
-<div style={{display:empty?"none":"block" ,color:"white"}}>
-Total Amount is : {totalAmount}
-</div>
+      <div style={{ display: empty ? "none" : "block", color: "white" }}>
+        Total Amount is : {totalAmount}
+      </div>
       <div>
         {" "}
         {!empty ? (
           <Checkout
             setcheckoutToggle={setcheckoutToggle}
             checkoutToggle={checkoutToggle}
+            totalAmount={totalAmount}
+            emailText={emailText}
+            setnemeText={setnameText}
+            setemailText={setemailText}
+            nameText={nameText}
           />
         ) : (
           ""
@@ -258,6 +314,8 @@ export default function MyApp() {
   const [toggle, settoggle] = useState(false);
   const [deleteItem, setdelete] = useState(false);
   const [checkoutToggle, setcheckoutToggle] = useState(false);
+  const [nameText, setnameText] = useState(false);
+  const [emailText, setemailText] = useState(false);
 
   return (
     <div>
@@ -279,6 +337,10 @@ export default function MyApp() {
             checkoutToggle={checkoutToggle}
             setcheckoutToggle={setcheckoutToggle}
             setdelete={setdelete}
+            emailText={emailText}
+            setnemeText={setnameText}
+            setemailText={setemailText}
+            nameText={nameText}
           />
         ) : (
           <Items />
