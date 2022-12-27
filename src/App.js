@@ -98,26 +98,42 @@ function Item({ item }) {
     </div>
   );
 }
-function CartItem({ item }) {
+function CartItem({ item ,deleteItem,setdelete }) {
   return (
     <div className="cartDiv" key={item.id}>
+      <br></br>
       <p>
-        {" "}
         Item Name: {item.name} &emsp;&emsp;Price: {item.price}{" "}
         &emsp;&emsp;Amount={item.amount}{" "}
       </p>
-      <p> Total amount: {item.amount * item.price} </p>
+      <p> Total amount: {item.amount * item.price} &emsp;&emsp;   <img
+          onClick={() => {
+            for (let i = 0; i < cartItems.length; i++) 
+            {
+              if (cartItems[i].id == item.id) {
+                cartItems.splice(i, 1);}
+            }
+            setdelete(!deleteItem);
+            console.log(cartItems);
+          }}
+          src={trash}
+          style={{ height: "28px" }}
+        ></img> </p>
 
       <br></br>
     </div>
   );
 }
-function CartItems() {
+function CartItems({deleteItem,setdelete}) {
   return (
     <div className="cartItems">
-      {cartItems.map((item) => {
-        return <CartItem item={item} />;
-      })}
+      { deleteItem?
+      cartItems.map((item) => {
+        return <CartItem item={item} deleteItem={deleteItem} setdelete={setdelete} />;
+      }): cartItems.map((item) => {
+        return <CartItem item={item} deleteItem={deleteItem} setdelete={setdelete} />;
+      })
+      }
     </div>
   );
 }
@@ -134,6 +150,7 @@ function Items() {
 }
 export default function MyApp() {
   const [toggle, settoggle] = useState(false);
+  const [deleteItem, setdelete] = useState(false);
 
   return (
     <div>
@@ -148,7 +165,7 @@ export default function MyApp() {
         ></img>
       </div>
       <hr></hr>
-      <div className="componant">{toggle ? <CartItems /> : <Items />}</div>
+      <div className="componant">{toggle ? <CartItems deleteItem={deleteItem} setdelete={setdelete}/> : <Items />}</div>
       <hr></hr>
     </div>
   );
